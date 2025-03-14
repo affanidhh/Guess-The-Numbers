@@ -1,67 +1,110 @@
-import tkinter as tk
-from tkinter import messagebox
-from random import randrange
-from time import sleep
+import os
+import random
 from math import ceil
+import time
 
-class GuessTheNumberApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Guess The Numbers")
-        self.number_to_guess = randrange(1, 11)
-        self.attempts_left = 5
-        self.money = 20
-        self.create_widgets()
+# Constants
+INITIAL_ARGENT = 20
 
-    def create_widgets(self):
-        self.label = tk.Label(self.root, text="Devinez un nombre entre 1 et 10")
-        self.label.pack()
+# Difficulty settings
+DIFFICULTY_SETTINGS = {
+    "Facile": (10, 5, 10),
+    "Moyen": (20, 7, 7),
+    "Difficile": (30, 10, 5)
+}
 
-        self.entry = tk.Entry(self.root)
-        self.entry.pack()
-
-        self.button = tk.Button(self.root, text="Devinez", command=self.check_guess)
-        self.button.pack()
-
-        self.money_label = tk.Label(self.root, text=f"Argent: {self.money}€")
-        self.money_label.pack()
-
-    def check_guess(self):
+def demander_nombre(message, min_val, max_val):
+    """Demande à l'utilisateur de saisir un nombre entre min_val et max_val."""
+    while True:
         try:
-            guess = int(self.entry.get())
-            if guess < 0 or guess > 10:
-                messagebox.showerror("Erreur", "Le nombre doit être entre 0 et 10.")
-                return
-
-            self.attempts_left -= 1
-
-            if guess == self.number_to_guess:
-                winnings = self.money * 3
-                messagebox.showinfo("Résultat", f"Félicitations ! Vous obtenez {winnings}€!")
-                self.money += winnings
-                self.number_to_guess = randrange(1, 11)
-                self.attempts_left = 5
-            elif guess % 2 == self.number_to_guess % 2:
-                winnings = ceil(self.money * 0.5)
-                messagebox.showinfo("Résultat", f"Le nombre choisi est pair ou impair. Vous obtenez {winnings}€.")
-                self.money += winnings
+            nombre = int(input(message))
+            if min_val <= nombre <= max_val:
+                return nombre
             else:
-                messagebox.showinfo("Résultat", "Désolé l'ami, c'est pas pour cette fois. Vous perdez votre mise.")
-                self.money -= self.money
-
-            self.money_label.config(text=f"Argent: {self.money}€")
-
-            if self.money <= 0:
-                messagebox.showinfo("Fin de Partie", "Vous êtes ruiné ! C'est la fin de la partie.")
-                self.root.quit()
-            elif self.attempts_left <= 0:
-                messagebox.showinfo("Fin de Partie", "Vous avez épuisé vos tentatives. C'est la fin de la partie.")
-                self.root.quit()
-
+                print(f"Veuillez saisir un nombre entre {min_val} et {max_val}.")
         except ValueError:
-            messagebox.showerror("Erreur", "Veuillez entrer un nombre valide.")
+            print("Vous n'avez pas saisi de nombre valide.")
+
+def demander_mise(argent):
+    """Demande à l'utilisateur de saisir une mise valide."""
+    while True:
+        try:
+            mise = int(input("Tapez le montant de votre mise : "))
+            if 0 < mise <= argent:
+                return mise
+            else:
+                print(f"Veuillez saisir une mise entre 1 et {argent}.")
+        except ValueError:
+            print("Vous n'avez pas saisi de montant valide.")
+
+def demander_nom():
+    """Demande le nom du joueur."""
+    return input("Quel est ton nom ? ")
+
+def choisir_difficulte():
+    """Permet au joueur de choisir la difficulté."""
+    print("Choisissez une difficulté :")
+    for i, difficulty in enumerate(DIFFICULTY_SETTINGS.keys(), 1):
+        print(f"{i}. {difficulty}")
+    choix = demander_nombre("Votre choix : ", 1, len(DIFFICULTY_SETTINGS))
+    return list(DIFFICULTY_SETTINGS.keys())[choix - 1]
+
+def jouer_niveau(max_val, essais, temps_limite, argent):
+    """Joue un niveau du jeu."""
+    nb_python = random.randint(1, max_val)
+    print(f"Devinez le nombre entre 1 et {max_val} (vous avez {essais} essais).")
+
+    for _ in range(essais):
+        start_time = time.time()
+        nb_user = demander_nombre("Votre nombre : ", 1, max_val)
+        elapsed_time = time.time() - start_time
+
+        if elapsed_time > temps_limite:
+            print(f"Vous avez dépassé le temps limite de {temps_limite} secondes. Vous perdez cet essai.")
+            continue
+
+        mise = demander_mise(argent)
+        if nb_user == nb_python:
+            gain = mise * 3
+            print(f"Félicitations ! Vous gagnez {gain} € !")
+            return argent + gain, nb_python
+        elif nb_user % 2 == nb_python % 2:
+            gain = ceil(mise * 0.5)
+            print(f"Le nombre choisi est pair ou impair. Vous gagnez {gain} €.")
+            argent += gain
+        else:
+            print("Désolé, vous perdez votre mise.")
+            argent -= mise
+
+        if argent <= 0:
+            print("Vous êtes ruiné ! C'est la fin de la partie.")
+            break
+
+        print(f"Il vous reste {argent} €.")
+
+    print(f"Le nombre exact était {nb_python}.")
+    return argent, nb_python
+
+def main():
+    os.environ['TK_SILENCE_DEPRECATION'] = '1'
+    nom = demander_nom()
+    argent = INITIAL_ARGENT
+
+    print(f"Bienvenue au casino, {nom} ! Vous commencez avec {argent} €.")
+    difficulte = choisir_difficulte()
+    max_val, essais, temps_limite = DIFFICULTY_SETTINGS[difficulte]
+    continuer_partie = True
+
+    while continuer_partie:
+        argent, nb_python = jouer_niveau(max_val, essais, temps_limite, argent)
+        if argent <= 0:
+            break
+        quitter = input("Souhaitez-vous quitter le jeu (o/n) ? ").strip().lower()
+        if quitter == 'o':
+            break
+
+    print(f"Le nombre exact était {nb_python}.")
+    print(f"Merci d'avoir joué, {nom} ! Vous repartez avec {argent} €.")
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = GuessTheNumberApp(root)
-    root.mainloop()
+    main()
