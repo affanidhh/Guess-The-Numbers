@@ -10,7 +10,17 @@ INITIAL_ARGENT = 20
 DIFFICULTY_SETTINGS = {
     "Facile": (10, 5, 10),
     "Moyen": (20, 7, 7),
-    "Difficile": (30, 10, 5)
+    "Difficile": (30, 10, 5),
+    "Expert": (50, 15, 3),
+    "Impossible": (100, 5, 2)
+}
+
+# Achievements
+ACHIEVEMENTS = {
+    "First Win": "Gagner une partie pour la première fois",
+    "Quick Thinker": "Gagner une partie en moins de 30 secondes",
+    "High Roller": "Miser plus de 50€ en une seule partie",
+    # Ajoutez d'autres réalisations ici
 }
 
 def demander_nombre(message, min_val, max_val):
@@ -52,7 +62,7 @@ def choisir_difficulte():
 def jouer_niveau(max_val, essais, temps_limite, argent):
     """Joue un niveau du jeu."""
     nb_python = random.randint(1, max_val)
-    print(f"Devinez le nombre entre 1 et {max_val} (vous avez {essais} essais).")
+    print(f"Devinez le nombre entre 1 et {max_val} (vous avez {essais} essais et {temps_limite} secondes par essai).")
 
     for _ in range(essais):
         start_time = time.time()
@@ -85,10 +95,17 @@ def jouer_niveau(max_val, essais, temps_limite, argent):
     print(f"Le nombre exact était {nb_python}.")
     return argent, nb_python
 
+def afficher_realisations(realisations):
+    """Affiche les réalisations obtenues."""
+    print("Réalisations obtenues :")
+    for realisation in realisations:
+        print(f"- {realisation}: {ACHIEVEMENTS[realisation]}")
+
 def main():
     os.environ['TK_SILENCE_DEPRECATION'] = '1'
     nom = demander_nom()
     argent = INITIAL_ARGENT
+    realisations = set()
 
     print(f"Bienvenue au casino, {nom} ! Vous commencez avec {argent} €.")
     difficulte = choisir_difficulte()
@@ -105,6 +122,7 @@ def main():
 
     print(f"Le nombre exact était {nb_python}.")
     print(f"Merci d'avoir joué, {nom} ! Vous repartez avec {argent} €.")
+    afficher_realisations(realisations)
 
 if __name__ == "__main__":
     main()
