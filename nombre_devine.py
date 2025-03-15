@@ -12,7 +12,8 @@ DIFFICULTY_SETTINGS = {
     "Moyen": (20, 7, 7),
     "Difficile": (30, 10, 5),
     "Expert": (50, 15, 3),
-    "Impossible": (100, 5, 2)
+    "Impossible": (100, 5, 2),
+    "Secret": (200, 3, 1)  # Niveau secret très difficile
 }
 
 # Achievements
@@ -55,8 +56,9 @@ def choisir_difficulte():
     """Permet au joueur de choisir la difficulté."""
     print("Choisissez une difficulté :")
     for i, difficulty in enumerate(DIFFICULTY_SETTINGS.keys(), 1):
-        print(f"{i}. {difficulty}")
-    choix = demander_nombre("Votre choix : ", 1, len(DIFFICULTY_SETTINGS))
+        if difficulty != "Secret":  # Ne pas afficher le niveau secret dans la liste
+            print(f"{i}. {difficulty}")
+    choix = demander_nombre("Votre choix : ", 1, len(DIFFICULTY_SETTINGS) - 1)
     return list(DIFFICULTY_SETTINGS.keys())[choix - 1]
 
 def jouer_niveau(max_val, essais, temps_limite, argent):
@@ -119,6 +121,12 @@ def main():
         quitter = input("Souhaitez-vous quitter le jeu (o/n) ? ").strip().lower()
         if quitter == 'o':
             break
+
+        # Condition spéciale pour débloquer le niveau secret
+        if difficulte == "Impossible" and argent > 100:
+            print("Félicitations ! Vous avez débloqué le niveau secret !")
+            difficulte = "Secret"
+            max_val, essais, temps_limite = DIFFICULTY_SETTINGS[difficulte]
 
     print(f"Le nombre exact était {nb_python}.")
     print(f"Merci d'avoir joué, {nom} ! Vous repartez avec {argent} €.")
