@@ -1,38 +1,79 @@
-# Guess The Numbers
+# 🎲 Guess The Numbers
 
-Bienvenue dans **Guess The Numbers**, un jeu de devinette où vous devez deviner le nombre correct pour gagner de l'argent virtuel. Ce dépôt contient le code source du jeu écrit en Python.
+## 📖 Description
+Bienvenue dans **Guess The Numbers**, un jeu de devinettes captivant où vous devez trouver le bon nombre en un nombre limité d'essais ! 🕵️‍♂️🔢  
+Plusieurs niveaux de difficulté sont disponibles, et vous pouvez même miser de l'argent virtuel pour pimenter la partie ! 💰🔥  
 
-## Description
+---
 
-**Guess The Numbers** est un jeu de casino où le joueur doit deviner un nombre choisi aléatoirement par l'ordinateur dans une certaine plage. Le joueur peut choisir parmi différents niveaux de difficulté, chacun avec ses propres règles et contraintes. Le jeu devient progressivement plus difficile avec des niveaux de difficulté croissants et des modes de jeu spéciaux.
+## 🕹️ Fonctionnalités du Jeu
+✔️ **Plusieurs niveaux de difficulté** :  
+   - 🟢 *Facile* : 1 à 10, 5 essais, 10 secondes.  
+   - 🟡 *Moyen* : 1 à 20, 7 essais, 7 secondes.  
+   - 🔴 *Difficile* : 1 à 30, 10 essais, 5 secondes.  
+   - ⚫ *Expert* : 1 à 50, 15 essais, 3 secondes.  
+   - 🟣 *Impossible* : 1 à 100, 5 essais, 2 secondes.  
+   - 🕵️ *Secret* : À vous de le découvrir ! 🤫  
 
-## Fonctionnalités
+✔️ **Système de mise** : Pariez votre argent virtuel et tentez de tout rafler ! 💸  
+✔️ **Multiplicateurs de gains** selon la difficulté choisie. 🚀  
+✔️ **Interface simple et interactive** pour une expérience fluide. 🎮  
 
-- **Niveaux de difficulté** :
-  - Facile : Plage de 1 à 10, 5 essais, limite de temps de 10 secondes.
-  - Moyen : Plage de 1 à 20, 7 essais, limite de temps de 7 secondes.
-  - Difficile : Plage de 1 à 30, 10 essais, limite de temps de 5 secondes.
-  - Expert : Plage de 1 à 50, 15 essais, limite de temps de 3 secondes.
-  - Impossible : Plage de 1 à 100, 5 essais, limite de temps de 2 secondes.
-  - Secret : Plage de 1 à 200, 3 essais, limite de temps de 1 seconde (débloqué en gagnant plus de 100€ en mode Impossible).
+---
 
-- **Système de réalisations** :
-  - First Win : Gagner une partie pour la première fois.
-  - Quick Thinker : Gagner une partie en moins de 30 secondes.
-  - High Roller : Miser plus de 50€ en une seule partie.
-  - Lucky Guess : Deviner le nombre correct du premier coup.
-  - Marathon Player : Jouer pendant plus de 30 minutes sans perdre tout son argent.
-  - Persistent Player : Jouer et gagner après avoir perdu plus de 5 fois.
-  - Jackpot : Gagner plus de 200€ en une seule partie.
+## 🚀 Installation
+📌 **Prérequis** : Assurez-vous d'avoir **Python 3.x** installé.
 
-- **Pénalités de temps** : Si le joueur dépasse le temps limite pour deviner, il perd cet essai.
-- **Bonus pour devinettes successives correctes** : Le joueur reçoit des bonus pour des devinettes correctes consécutives.
-- **Interface utilisateur améliorée** : Interface intuitive avec des messages clairs et des instructions.
-
-## Instructions
-
-### Installation
-
-1. Clonez ce dépôt sur votre machine locale :
+1️⃣ Clonez ce dépôt en exécutant la commande suivante :  
    ```sh
    git clone https://github.com/affanidhh/Guess-The-Numbers.git
+   ```
+2️⃣ Accédez au dossier du projet :  
+   ```sh
+   cd Guess-The-Numbers
+   ```
+3️⃣ (Optionnel) Créez un environnement virtuel et activez-le :  
+   ```sh
+   python -m venv env
+   source env/bin/activate  # Windows : env\Scripts\activate
+   ```
+4️⃣ Installez les dépendances :  
+   ```sh
+   pip install -r requirements.txt
+   ```
+
+---
+
+## ▶️ Comment Jouer ?
+Lancez le jeu en exécutant :  
+```sh
+python nombre_devine.py
+```
+📢 Suivez les instructions et tentez de deviner le bon nombre avant d'épuiser vos essais ! 🎯  
+
+---
+
+## 🤝 Contribution
+💡 **Vous voulez améliorer le jeu ?** Rejoignez l'aventure !  
+
+1️⃣ **Forkez** ce dépôt.  
+2️⃣ **Créez une branche** pour vos modifications :  
+   ```sh
+   git checkout -b ma-nouvelle-fonctionnalite
+   ```
+3️⃣ **Ajoutez vos changements** et validez-les :  
+   ```sh
+   git commit -m "Ajout d'une nouvelle fonctionnalité"
+   ```
+4️⃣ **Envoyez vos modifications** sur GitHub :  
+   ```sh
+   git push origin ma-nouvelle-fonctionnalite
+   ```
+5️⃣ **Ouvrez une *Pull Request* sur GitHub** et proposez votre amélioration. 🚀  
+
+---
+
+## 📜 Licence
+📝 Ce projet est sous licence **MIT**. Consultez le fichier `LICENSE` pour plus d'infos.  
+
+🎉 **Amusez-vous bien et tentez votre chance !** 🍀  
